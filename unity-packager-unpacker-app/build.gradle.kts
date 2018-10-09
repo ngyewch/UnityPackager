@@ -23,7 +23,6 @@ tasks.withType<JavaCompile> {
 dependencies {
     compile(project(":unity-packager"))
     compile("commons-cli:commons-cli:1.4")
-    compile("org.apache.commons:commons-lang3:3.8.1")
 }
 
 tasks {
