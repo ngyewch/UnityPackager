@@ -1,6 +1,7 @@
 plugins {
     java
     //id("com.github.ben-manes.versions")
+    id("com.jonaslasauskas.capsule") version ("0.3.0")
 }
 
 apply {
@@ -23,4 +24,15 @@ dependencies {
     compile(project(":unity-packager"))
     compile("commons-cli:commons-cli:1.4")
     compile("org.apache.commons:commons-lang3:3.8.1")
+}
+
+tasks {
+    val capsule by getting(com.jonaslasauskas.gradle.plugin.capsule.Capsule::class) {
+        capsuleManifest {
+            applicationId = "${project.name}"
+            applicationClass = "com.github.ngyewch.unity.packager.app.Unpacker"
+        }
+    }
+
+    get("build").dependsOn("capsule")
 }
