@@ -9,6 +9,7 @@ apply {
 
 repositories {
     jcenter()
+    maven(url = "https://jitpack.io")
 }
 
 java {
@@ -20,8 +21,7 @@ tasks.withType<JavaCompile> {
 }
 
 dependencies {
-    compile("commons-io:commons-io:2.6")
-    compile("org.apache.commons:commons-compress:1.18")
-    compile("org.springframework:spring-core:5.1.0.RELEASE")
-    compile("org.yaml:snakeyaml:1.23")
+    compile(project(":unity-packager"))
+    compile("commons-cli:commons-cli:1.4")
+    compile("org.apache.commons:commons-lang3:3.8.1")
 }
