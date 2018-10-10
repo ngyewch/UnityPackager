@@ -1,5 +1,6 @@
 plugins {
     java
+    `maven-publish`
     //id("com.github.ben-manes.versions")
 }
 
@@ -24,4 +25,19 @@ dependencies {
     compile("org.apache.commons:commons-compress:1.18")
     compile("org.springframework:spring-core:5.1.0.RELEASE")
     compile("org.yaml:snakeyaml:1.23")
+}
+
+publishing {
+    publications.create("mavenJava", MavenPublication::class.java) {
+        from(components.getByName("java"))
+        groupId = "com.github.ngyewch.unitypackager"
+        artifactId = "unity-packager"
+        version = "0.0.1"
+    }
+}
+
+tasks {
+    "build" {
+        dependsOn("publishToMavenLocal")
+    }
 }
