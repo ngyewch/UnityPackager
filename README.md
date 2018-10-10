@@ -1,3 +1,7 @@
+
+![Travis (.org)](https://img.shields.io/travis/ngyewch/UnityPackager.svg)
+![GitHub release](https://img.shields.io/github/release/ngyewch/UnityPackager.svg)
+
 # UnityPackager
 
 UnityPackager is a library and command line tools to manipulate .unitypackage files written in Java. It is heavily inspired by [UnityPacker](https://github.com/FatihBAKIR/UnityPacker).
