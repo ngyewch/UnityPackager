@@ -16,7 +16,6 @@ public class Packer {
         options.addOption("o", "output", true, "[REQUIRED] Output file.");
         options.addOption("i", "includes", true, "Include patterns (comma-separated).");
         options.addOption("x", "excludes", true, "Exclude patterns (comma-separated).");
-        options.addOption(null, "includeMeta", false, "Include meta.");
         options.addOption("h", "help", false, "Show this help message.");
 
         final CommandLineParser commandLineParser = new DefaultParser();
@@ -38,14 +37,12 @@ public class Packer {
             final File outputFile = new File(commandLine.getOptionValue('o'));
             final List<String> includes = toList(commandLine.getOptionValue("i"));
             final List<String> excludes = toList(commandLine.getOptionValue("x"));
-            final boolean includeMeta = commandLine.hasOption("includeMeta");
 
             new UnityPackagePacker.Builder()
                     .withProjectDirectory(projectDirectory)
                     .withOutputFile(outputFile)
                     .withIncludes(includes)
                     .withExcludes(excludes)
-                    .withIncludeMeta(includeMeta)
                     .pack();
         } catch (ParseException e) {
             showHelp(options);

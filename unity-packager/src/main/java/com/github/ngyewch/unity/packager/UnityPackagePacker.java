@@ -21,12 +21,10 @@ public class UnityPackagePacker implements Closeable {
     private final TarArchiveOutputStream tarArchiveOutputStream;
     private final List<String> includes;
     private final List<String> excludes;
-    private final boolean includeMeta;
     private final Yaml yaml;
     private final PathMatcher pathMatcher = new AntPathMatcher();
 
-    private UnityPackagePacker(File projectDirectory, File outputFile, List<String> includes, List<String> excludes,
-                               boolean includeMeta)
+    private UnityPackagePacker(File projectDirectory, File outputFile, List<String> includes, List<String> excludes)
             throws IOException {
         super();
 
@@ -34,10 +32,8 @@ public class UnityPackagePacker implements Closeable {
 
         tarArchiveOutputStream = new TarArchiveOutputStream(new GZIPOutputStream(new FileOutputStream(outputFile)));
 
-        this.includes = ((includes != null) && !includes.isEmpty()) ? includes
-                : Collections.singletonList("Assets/**");
+        this.includes = ((includes != null) && !includes.isEmpty()) ? includes : Collections.singletonList("Assets/**");
         this.excludes = excludes;
-        this.includeMeta = includeMeta;
 
         final DumperOptions options = new DumperOptions();
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
@@ -69,16 +65,11 @@ public class UnityPackagePacker implements Closeable {
 
     private void pack()
             throws IOException {
-        for (final File file : FileUtils.listFilesAndDirs(projectDirectory, TrueFileFilter.TRUE,
-                TrueFileFilter.TRUE)) {
+        for (final File file : FileUtils.listFilesAndDirs(projectDirectory, TrueFileFilter.TRUE, TrueFileFilter.TRUE)) {
             final String relativePath = projectDirectory.toURI().relativize(file.toURI()).toString();
             if (!relativePath.endsWith(".meta") && isIncluded(relativePath)) {
-                if (includeMeta) {
-                    final File metaFile = new File(projectDirectory, relativePath + ".meta");
-                    add(relativePath, file, metaFile);
-                } else {
-                    add(relativePath, file, null);
-                }
+                final File metaFile = new File(projectDirectory, relativePath + ".meta");
+                add(relativePath, file, metaFile);
             }
         }
     }
@@ -101,7 +92,10 @@ public class UnityPackagePacker implements Closeable {
             tarArchiveOutputStream.closeArchiveEntry();
         }
 
-        if ((metaFile != null) && metaFile.isFile()) {
+        if (fileName.equals("Assets")) {
+            // skip Assets.meta
+        }
+        else if ((metaFile != null) && metaFile.isFile()) {
             final TarArchiveEntry entry = new TarArchiveEntry(metaFile, String.format("./%s/asset.meta", guid));
             tarArchiveOutputStream.putArchiveEntry(entry);
             FileUtils.copyFile(metaFile, tarArchiveOutputStream);
@@ -150,7 +144,6 @@ public class UnityPackagePacker implements Closeable {
         private File outputFile;
         private List<String> includes = null;
         private List<String> excludes = null;
-        private boolean includeMeta = false;
 
         public Builder withProjectDirectory(File projectDirectory) {
             this.projectDirectory = projectDirectory;
@@ -188,11 +181,6 @@ public class UnityPackagePacker implements Closeable {
             return this;
         }
 
-        public Builder withIncludeMeta(boolean includeMeta) {
-            this.includeMeta = includeMeta;
-            return this;
-        }
-
         public void pack()
                 throws IOException {
             if (projectDirectory == null) {
@@ -202,7 +190,7 @@ public class UnityPackagePacker implements Closeable {
                 throw new IllegalArgumentException("outputFile not specified");
             }
             try (final UnityPackagePacker packer = new UnityPackagePacker(projectDirectory, outputFile, includes,
-                    excludes, includeMeta)) {
+                    excludes)) {
                 packer.pack();
             }
         }
