@@ -3,7 +3,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath("ca.cutterslade.gradle:gradle-dependency-analyze:1.2.2")
+        classpath("ca.cutterslade.gradle:gradle-dependency-analyze:1.3.0")
     }
 }
 
