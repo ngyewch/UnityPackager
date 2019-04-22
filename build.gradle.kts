@@ -3,14 +3,14 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath("ca.cutterslade.gradle:gradle-dependency-analyze:1.3.0")
+        classpath("ca.cutterslade.gradle:gradle-dependency-analyze:1.3.1")
     }
 }
 
 plugins {
     java
     id("com.jfrog.bintray") version ("1.8.4")
-    id("com.github.ben-manes.versions") version ("0.20.0")
+    id("com.github.ben-manes.versions") version ("0.21.0")
 }
 
 apply {
