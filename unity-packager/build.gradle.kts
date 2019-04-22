@@ -38,9 +38,3 @@ publishing {
         }
     }
 }
-
-tasks {
-    "build" {
-        dependsOn("publishToMavenLocal")
-    }
-}
