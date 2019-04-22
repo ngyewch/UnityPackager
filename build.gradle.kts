@@ -18,6 +18,9 @@ apply {
 }
 
 allprojects {
+    group = "com.github.ngyewch.unitypackager"
+    version = "1.0"
+
     repositories {
         jcenter()
     }

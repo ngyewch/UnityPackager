@@ -1,5 +1,5 @@
 plugins {
-    java
+    `java-gradle-plugin`
     `maven-publish`
     //id("com.github.ben-manes.versions")
 }
@@ -21,10 +21,17 @@ tasks.withType<JavaCompile> {
 }
 
 dependencies {
-    compile("commons-io:commons-io:2.6")
-    compile("org.apache.commons:commons-compress:1.18")
-    compile("org.springframework:spring-core:5.1.6.RELEASE")
-    compile("org.yaml:snakeyaml:1.24")
+    compile(project(":unity-packager"))
+    compile("org.apache.commons:commons-lang3:3.9")
+}
+
+gradlePlugin {
+    plugins {
+        create("unityPackager") {
+            id = "com.github.ngyewch.unity.packager.gradle"
+            implementationClass = "com.github.ngyewch.unity.packager.gradle.UnityPackagerPlugin"
+        }
+    }
 }
 
 publishing {
@@ -33,14 +40,7 @@ publishing {
             groupId = project.group as String?
             artifactId = project.name
             version = project.version as String?
-
             from(components["java"])
         }
-    }
-}
-
-tasks {
-    "build" {
-        dependsOn("publishToMavenLocal")
     }
 }
