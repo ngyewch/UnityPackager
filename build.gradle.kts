@@ -9,7 +9,6 @@ buildscript {
 
 plugins {
     java
-    id("com.jfrog.bintray") version ("1.8.4")
     id("com.github.ben-manes.versions") version ("0.21.0")
 }
 
@@ -41,15 +40,4 @@ allprojects {
             }
         }
     }
-}
-
-bintray {
-    user = project.findProperty("bintray.user") as String?
-    key = project.findProperty("bintray.api") as String?
-    pkg(delegateClosureOf<com.jfrog.bintray.gradle.BintrayExtension.PackageConfig> {
-        repo = "generic"
-        name = "unity-packager"
-        setLicenses("Apache-2.0")
-        vcsUrl = "https://github.com/ngyewch/UnityPackager.git"
-    })
 }

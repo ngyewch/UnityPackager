@@ -1,6 +1,7 @@
 plugins {
     java
     `maven-publish`
+    id("com.jfrog.bintray") version ("1.8.4")
     //id("com.github.ben-manes.versions")
 }
 
@@ -37,4 +38,16 @@ publishing {
             from(components["java"])
         }
     }
+}
+
+bintray {
+    user = project.findProperty("bintray.user") as String?
+    key = project.findProperty("bintray.key") as String?
+    setPublications("maven")
+    pkg(delegateClosureOf<com.jfrog.bintray.gradle.BintrayExtension.PackageConfig> {
+        repo = "maven"
+        name = "unity-packager"
+        setLicenses("Apache-2.0")
+        vcsUrl = "https://github.com/ngyewch/UnityPackager.git"
+    })
 }
