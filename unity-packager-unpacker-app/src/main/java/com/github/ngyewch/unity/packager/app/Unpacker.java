@@ -9,7 +9,7 @@ public class Unpacker {
 
     public static void main(String[] args) throws Exception {
         final Options options = new Options();
-        options.addOption("i", "includes", true, "[REQUIRED] Unity package file.");
+        options.addOption("i", "input", true, "[REQUIRED] Unity package file.");
         options.addOption("o", "output", true, "[REQUIRED] Output directory.");
         options.addOption("h", "help", false, "Show this help message.");
 
