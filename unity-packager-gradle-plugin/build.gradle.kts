@@ -1,6 +1,7 @@
 plugins {
     `java-gradle-plugin`
     `maven-publish`
+    id("com.gradle.plugin-publish") version "0.10.0"
     //id("com.github.ben-manes.versions")
 }
 
@@ -27,10 +28,15 @@ dependencies {
 
 gradlePlugin {
     plugins {
-        create("unityPackager") {
+        create("unityPackagerPlugin") {
             id = "com.github.ngyewch.unity.packager.gradle"
             implementationClass = "com.github.ngyewch.unity.packager.gradle.UnityPackagerPlugin"
-            version = project.version
         }
     }
+}
+
+pluginBundle {
+    website = "https://github.com/ngyewch/UnityPackager"
+    vcsUrl = "https://github.com/ngyewch/UnityPackager.git"
+    tags = listOf("gradle", "plugin", "unity", "unitypackage")
 }
