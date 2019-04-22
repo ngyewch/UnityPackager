@@ -30,17 +30,7 @@ gradlePlugin {
         create("unityPackager") {
             id = "com.github.ngyewch.unity.packager.gradle"
             implementationClass = "com.github.ngyewch.unity.packager.gradle.UnityPackagerPlugin"
-        }
-    }
-}
-
-publishing {
-    publications {
-        create<MavenPublication>("maven") {
-            groupId = project.group as String?
-            artifactId = project.name
-            version = project.version as String?
-            from(components["java"])
+            version = project.version
         }
     }
 }
